@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["Message",""]],"struct":[["ThreadPool","A ThreadPool is a vector of workers and a sender."],["Worker",""]],"trait":[["FnBox",""]]});

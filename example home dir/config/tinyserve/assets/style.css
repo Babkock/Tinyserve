@@ -1,0 +1,95 @@
+body {
+	background-color:#121212;
+	color:#cfcfcf;
+	overflow-x:hidden;
+	overflow-y:hidden;
+}
+
+body main, body section {
+	width:90%;
+	display:inline-block;
+	margin-left:5%;
+	margin-right:5%;
+	background-color:rgba(18, 22, 31, 0.8);
+	color:#cfcfcf;
+	padding:8px;
+}
+
+main {
+	text-align:center;
+	font-size:2.7em;
+}
+
+section form {
+	width:100%;
+}
+form input {
+	width:90%;
+	margin-left:5%;
+	margin-right:5%;
+	appearance:none;
+	-moz-appearance:none;
+	-webkit-appearance:none;
+	background-color:#141414;
+	color:#d3d3d3;
+	border:1px solid transparent;
+	border-radius:10px 10px 10px 10px;
+	font-size:1.7em;
+	padding:8px;
+}
+
+section .left {
+	background-color:rgba(26, 32, 50, 0.6) !important;
+	float:left;
+	display:inline-block;
+	width:33%;
+	text-align:right;
+	padding-right:7px;
+}
+section .middle {
+	background-color:rgba(30, 22, 44, 0.6) !important;
+	float:left;
+	display:inline-block;
+	width:33%;
+	text-align:center;
+}
+section .right {
+	background-color:rgba(26, 40, 28, 0.6) !important;
+	float:left;
+	display:inline-block;
+	width:33%;
+	text-align:left;
+}
+
+#links ul {
+	list-style-type:none;
+}
+#links ul li {
+	margin-top:4px;
+	margin-bottom:6px;
+}
+
+.left ul li a, .left ul li a:active, .left ul li a:focus, .left ul li a:link, .left ul li a:visited {
+	color:aqua;
+	text-decoration:none;
+	font-size:1.06em;
+}
+.middle ul li a, .middle ul li a:active, .middle ul li a:focus, .middle ul li a:link, .middle ul li a:visited {
+	color:violet;
+	text-decoration:none;
+	font-size:1.06em;
+}
+.right ul li a, .right ul li a:active, .right ul li a:focus, .right ul li a:link, .right ul li a:visited {
+	color:green;
+	text-decoration:none;
+	font-size:1.06em;
+}
+a:hover {
+	color:#cfcfcf !important;
+	text-decoration:underline !important;
+	font-size:1.06em;
+}
+
+*, *:active, *:focus {
+	outline:0 !important;
+}

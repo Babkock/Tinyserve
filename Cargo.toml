@@ -1,0 +1,8 @@
+[package]
+name = "tinyserve"
+version = "0.1.0"
+authors = ["Tanner Babcock <babkock@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+chrono = "0.4"
