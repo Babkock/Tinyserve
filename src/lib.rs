@@ -142,7 +142,7 @@ impl Worker {
 }
 
 // Decide how to respond, and what HTML to render, to the contents of the TcpStream.
-pub fn handle_client(mut stream: TcpStream) -> io::Result<()> {
+pub fn handle_client(mut stream: TcpStream, webroot: &str) -> io::Result<()> {
     let mut buffer = [0; 512];
     stream.read(&mut buffer).unwrap();
     let mut request_line = String::new();
@@ -159,13 +159,27 @@ pub fn handle_client(mut stream: TcpStream) -> io::Result<()> {
             let current_user = env::var("USER").unwrap();
 
             let file = if request.path == "/" {
-                File::open(format!("/home/{}/.config/tinyserve/index.html", current_user))
+                if webroot == "poop" {
+                    File::open(format!("/home/{}/.config/tinyserve/index.html", current_user))
+                } else {
+                    File::open(format!("{}/index.html", webroot))
+                }
             } else if request.path == "/pi" {
-                File::open(format!("/home/{}/.config/tinyserve/pi.html", current_user))
-            }  else {
-                File::open(format!("/home/{}/.config/tinyserve{}", current_user, request.path))
+                if webroot == "poop" {
+                    File::open(format!("/home/{}/.config/tinyserve/pi.html", current_user))
+                } else {
+                    File::open(format!("{}/pi.html", webroot))
+                }
+            } else {
+                if webroot == "poop" {
+                    File::open(format!("/home/{}/.config/tinyserve{}", current_user, request.path))
+                }
+                else {
+                    File::open(format!("{}{}", webroot, request.path))
+                }
             };
             let mut status = String::new();
+            let mut prefix = String::new();
             let mut file = match file {
                 Ok(file) => {
                     status = "HTTP/1.1 200 OK\r\n".to_string();
@@ -173,13 +187,18 @@ pub fn handle_client(mut stream: TcpStream) -> io::Result<()> {
                 },
                 Err(_error) => {
                     status = "HTTP/1.1 404 NOT FOUND\r\n".to_string();
-                    File::open(format!("/home/{}/.config/tinyserve/404.html", current_user)).unwrap()
+                    if webroot != "poop" {
+                        prefix = webroot.to_string();
+                    }
+                    else {
+                        prefix = format!("/home/{}/.config/tinyserve", current_user);
+                    }
+                    File::open(format!("{}/404.html", prefix)).unwrap()
                 }
             };
             let mut contents = String::new();
             file.read_to_string(&mut contents).unwrap();
 
-            // let tokens = request.path.split(".");
             let extension = if status.starts_with("HTTP/1.1 404") || request.path == "/" || request.path == "/pi" {
                 "html"
             } else {
