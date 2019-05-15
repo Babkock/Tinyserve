@@ -1,6 +1,6 @@
 [package]
 name = "tinyserve"
-version = "0.1.0"
+version = "0.4.0"
 authors = ["Tanner Babcock <babkock@gmail.com>"]
 edition = "2018"
 

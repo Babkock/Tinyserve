@@ -1,3 +1,10 @@
+/*
+ * lib.rs
+ *
+ * Tinyserve 0.4
+ *
+ * Copyright (c) 2019 Tanner Babcock.
+*/
 use std::env;
 use std::io;
 use std::thread;
@@ -48,7 +55,7 @@ impl ThreadPool {
     /// # Panics
     ///
     /// The 'new' function will panic if the size is zero.
-    pub fn new(size: usize) -> ThreadPool {
+    pub fn new(size: usize, verbose: bool) -> ThreadPool {
         assert!(size > 0);
 
         let (sender, receiver) = mpsc::channel();
@@ -58,12 +65,12 @@ impl ThreadPool {
         let mut workers = Vec::with_capacity(size);
 
         for id in 0..size {
-            workers.push(Worker::new(id, Arc::clone(&receiver)));
+            workers.push(Worker::new(id, Arc::clone(&receiver), verbose));
         }
 
         ThreadPool {
             workers,
-            sender,
+            sender
         }
     }
 
@@ -112,7 +119,7 @@ impl Worker {
     /// # Panics
     ///
     /// The new() function will panic if the receiver was poisoned.
-    pub fn new(id: usize, receiver: Arc<Mutex<mpsc::Receiver<Message>>>)
+    pub fn new(id: usize, receiver: Arc<Mutex<mpsc::Receiver<Message>>>, verbose: bool)
         -> Worker {
 
         let thread = thread::spawn(move || {
@@ -121,13 +128,15 @@ impl Worker {
 
                 match message {
                     Message::NewJob(job) => {
-                        println!("Worker {} got a job; executing.", id);
-
+                        if verbose {
+                            println!("Worker {} got a job; executing.", id);
+                        }
                         job.call_box();
                     },
                     Message::Terminate => {
-                        println!("Worker {} was told to terminate.", id);
-
+                        if verbose {
+                            println!("Worker {} was told to terminate.", id);
+                        }
                         break;
                     },
                 }
@@ -141,8 +150,11 @@ impl Worker {
     }
 }
 
-// Decide how to respond, and what HTML to render, to the contents of the TcpStream.
-pub fn handle_client(mut stream: TcpStream, webroot: &str) -> io::Result<()> {
+/// Handle a request.
+///
+/// **stream** is the incoming TcpStream, **webroot** is the path to look in for files, **verbose**
+/// is whether to show requests on stdout.
+pub fn handle_client(mut stream: TcpStream, webroot: &str, verbose: bool) -> io::Result<()> {
     let mut buffer = [0; 512];
     stream.read(&mut buffer).unwrap();
     let mut request_line = String::new();
@@ -155,23 +167,25 @@ pub fn handle_client(mut stream: TcpStream, webroot: &str) -> io::Result<()> {
 
     match parse_request(&mut request_line) {
         Ok(request) => {
-            log_request(&request);
+            if verbose {
+                log_request(&request);
+            }
             let current_user = env::var("USER").unwrap();
 
             let file = if request.path == "/" {
-                if webroot == "poop" {
+                if webroot == "_default_" {
                     File::open(format!("/home/{}/.config/tinyserve/index.html", current_user))
                 } else {
                     File::open(format!("{}/index.html", webroot))
                 }
             } else if request.path == "/pi" {
-                if webroot == "poop" {
+                if webroot == "_default_" {
                     File::open(format!("/home/{}/.config/tinyserve/pi.html", current_user))
                 } else {
                     File::open(format!("{}/pi.html", webroot))
                 }
             } else {
-                if webroot == "poop" {
+                if webroot == "_default_" {
                     File::open(format!("/home/{}/.config/tinyserve{}", current_user, request.path))
                 }
                 else {
@@ -187,7 +201,7 @@ pub fn handle_client(mut stream: TcpStream, webroot: &str) -> io::Result<()> {
                 },
                 Err(_error) => {
                     status = "HTTP/1.1 404 NOT FOUND\r\n".to_string();
-                    if webroot != "poop" {
+                    if webroot != "_default_" {
                         prefix = webroot.to_string();
                     }
                     else {

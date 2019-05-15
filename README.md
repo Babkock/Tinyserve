@@ -4,7 +4,7 @@ Tinyserve is a simple multi-threaded web server written in Rust. It serves the s
 
 ```
 USAGE:
-    main [FLAGS] [OPTIONS]
+    tinyserve [FLAGS] [OPTIONS]
 
 FLAGS:
     -h, --help       Prints help information
@@ -20,6 +20,10 @@ OPTIONS:
 
 ## How to use
 
-Your web root directory must contain at the very least, a file called *404.html*. Tinyserve will crash if this is not present. If there is no *index.html* to serve for a ```GET /``` request, Tinyserve will fall back to *404.html*.
+Your web root directory must contain at the very least, a file called *404.html*. Tinyserve will crash if this file is not present. If there is no *index.html* to serve for a ```GET /``` request, Tinyserve will fall back to *404.html*.
 
-Copyright (c) 2019 Tanner Babcock.
+There is an example HTML site included with this repo, copy it to your **```~/.config/tinyserve```**, the default web root, and give it a try. The default address is [localhost:8000](http://localhost:8000).
+
+## License
+
+This software is licensed under the terms of the [GNU General Public License version 2](https://github.com/Babkock/Tinyserve/blob/master/LICENSE.md). This software is distributed with absolutely no warranty.
