@@ -1,4 +1,3 @@
 /target
-!/target/doc
 Cargo.lock
 **/*.rs.bk

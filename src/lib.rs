@@ -4,7 +4,23 @@
  * Tinyserve 0.4
  *
  * Copyright (c) 2019 Tanner Babcock.
+ * This code is licensed under the terms of the GNU General Public License. See LICENSE.md for details.
 */
+//! Simple multi-threaded web server.
+//!
+//! # Usage
+//!
+//! This code is only functional in binary form at the moment. However, if you wish to use it as a
+//! library, put this in your crate root:
+//!
+//! ```rust
+//! extern crate tinyserve;
+//! ```
+//!
+//! Please see README.md for details on how to use Tinyserve.
+//!
+#![allow(dead_code)]
+#![allow(unused_assignments)]
 use std::env;
 use std::io;
 use std::thread;
@@ -21,16 +37,27 @@ pub enum Message {
     Terminate,
 }
 
+/// A Request is a tokenized HTTP request with four fields.
 pub struct Request {
-    http_version: String,
-    method: String,
-    path: String,
+    /// HTTP version, usually "HTTP/1.1"
+    pub http_version: String,
+
+    /// Method, "GET" or "POST"
+    pub method: String,
+    
+    /// Path to requested file - a request for "/" loads index.html
+    pub path: String,
+    
+    /// Local date/time the request was made
     time: DateTime<Local>,
 }
 
 /// A ThreadPool is a vector of workers and a sender.
 pub struct ThreadPool {
+    /// Vector of Workers
     workers: Vec<Worker>,
+
+    /// MPSC Message
     sender: mpsc::Sender<Message>,
 }
 
@@ -50,7 +77,7 @@ type Job = Box<FnBox + Send + 'static>;
 impl ThreadPool {
     /// Create a new ThreadPool.
     ///
-    /// The size is the number of threads in the pool.
+    /// The **size** is the number of threads in the pool, **verbose** is whether to show worker on stdout.
     ///
     /// # Panics
     ///
@@ -59,9 +86,7 @@ impl ThreadPool {
         assert!(size > 0);
 
         let (sender, receiver) = mpsc::channel();
-
         let receiver = Arc::new(Mutex::new(receiver));
-
         let mut workers = Vec::with_capacity(size);
 
         for id in 0..size {
@@ -80,7 +105,6 @@ impl ThreadPool {
             F: FnOnce() + Send + 'static
     {
         let job = Box::new(f);
-
         self.sender.send(Message::NewJob(job)).unwrap();
     }
 }
@@ -106,15 +130,20 @@ impl Drop for ThreadPool {
     }
 }
 
+/// A Worker is the owner of a particular thread.
 pub struct Worker {
+    /// Unique ID number for the Worker
     id: usize,
+
+    /// Thread
     thread: Option<thread::JoinHandle<()>>,
 }
 
 impl Worker {
     /// Create a Worker object.
     ///
-    /// **id** is the unique ID for the worker, **receiver** is the channel for its jobs.
+    /// **id** is the unique ID for the worker, **receiver** is the channel for its jobs,
+    /// **verbose** is whether to output to stdout.
     ///
     /// # Panics
     ///
@@ -125,7 +154,6 @@ impl Worker {
         let thread = thread::spawn(move || {
             loop {
                 let message = receiver.lock().unwrap().recv().unwrap();
-
                 match message {
                     Message::NewJob(job) => {
                         if verbose {
@@ -236,7 +264,12 @@ pub fn handle_client(mut stream: TcpStream, webroot: &str, verbose: bool) -> io:
     Ok(())
 }
 
-fn parse_request(request: &mut String) -> Result<Request, ()> {
+/// Parse HTTP request into four fields.
+///
+/// **request** is the first line of the incoming HTTP request.
+///
+/// This returns a Request object.
+pub fn parse_request(request: &mut String) -> Result<Request, ()> {
     let mut parts = request.split(" ");
     let method = match parts.next() {
         Some(method) => method.trim().to_string(),
@@ -260,7 +293,10 @@ fn parse_request(request: &mut String) -> Result<Request, ()> {
     } )
 }
 
-fn log_request(request: &Request) {
+/// Log the HTTP request.
+///
+/// **request** is the Request object to log.
+pub fn log_request(request: &Request) {
     println!(
         "[{}] \"{} {} {}\"",
         request.time,
