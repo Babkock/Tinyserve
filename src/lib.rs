@@ -21,15 +21,11 @@
 //!
 #![allow(dead_code)]
 #![allow(unused_assignments)]
-use std::env;
-use std::io;
-use std::thread;
+use std::{env, io, thread};
 use std::fs::File;
 use std::io::prelude::*;
 use std::net::TcpStream;
-use std::sync::Arc;
-use std::sync::Mutex;
-use std::sync::mpsc;
+use std::sync::{Arc, Mutex, mpsc};
 use chrono::prelude::*;
 
 pub enum Message {
