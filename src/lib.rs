@@ -202,12 +202,6 @@ pub fn handle_client(mut stream: TcpStream, webroot: &str, verbose: bool) -> io:
                 } else {
                     File::open(format!("{}/index.html", webroot))
                 }
-            } else if request.path == "/pi" {
-                if webroot == "_default_" {
-                    File::open(format!("/home/{}/.config/tinyserve/pi.html", current_user))
-                } else {
-                    File::open(format!("{}/pi.html", webroot))
-                }
             } else {
                 if webroot == "_default_" {
                     File::open(format!("/home/{}/.config/tinyserve{}", current_user, request.path))
@@ -237,7 +231,7 @@ pub fn handle_client(mut stream: TcpStream, webroot: &str, verbose: bool) -> io:
             let mut contents = String::new();
             file.read_to_string(&mut contents).unwrap();
 
-            let extension = if status.starts_with("HTTP/1.1 404") || request.path == "/" || request.path == "/pi" {
+            let extension = if status.starts_with("HTTP/1.1 404") || request.path == "/" {
                 "html"
             } else {
                 request.path.split(".").last().unwrap()
@@ -267,6 +261,7 @@ pub fn handle_client(mut stream: TcpStream, webroot: &str, verbose: bool) -> io:
 /// This returns a Request object.
 pub fn parse_request(request: &mut String) -> Result<Request, ()> {
     let mut parts = request.split(" ");
+
     let method = match parts.next() {
         Some(method) => method.trim().to_string(),
         None => return Err(()),
@@ -292,6 +287,7 @@ pub fn parse_request(request: &mut String) -> Result<Request, ()> {
 /// Log the HTTP request.
 ///
 /// **request** is the Request object to log.
+
 pub fn log_request(request: &Request) {
     println!(
         "[{}] \"{} {} {}\"",
