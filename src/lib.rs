@@ -4,7 +4,7 @@
  * Tinyserve 0.4
  *
  * Copyright (c) 2019 Tanner Babcock.
- * This code is licensed under the terms of the GNU General Public License. See LICENSE.md for details.
+ * This code is licensed under the terms of the MIT License. See LICENSE.md for details.
 */
 //! Simple multi-threaded web server.
 //!

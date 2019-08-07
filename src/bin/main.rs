@@ -4,7 +4,7 @@
  * Tinyserve 0.4
  *
  * Copyright (c) 2019 Tanner Babcock.
- * This software is licensed under the terms of the GNU General Public License. See LICENSE.md for details.
+ * This software is licensed under the terms of the MIT License. See LICENSE.md for details.
 */
 extern crate tinyserve;
 extern crate clap;
