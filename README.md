@@ -1,5 +1,7 @@
 # Tinyserve
 
+[![Build status](https://ci.appveyor.com/api/projects/status/dnv4xqnfx7v64re0?svg=true)](https://ci.appveyor.com/project/Babkock/tinyserve) [![dependency status](https://deps.rs/repo/github/Babkock/tinyserve/status.svg)](https://deps.rs/repo/github/Babkock/tinyserve) ![](https://tokei.rs/b1/github/Babkock/tinyserve)
+
 Tinyserve is a simple multi-threaded web server written in Rust. It serves the specified web root at the specified address.
 
 ```
@@ -26,4 +28,4 @@ There is an example HTML site included with this repo, copy it to your **```~/.c
 
 ## License
 
-This software is licensed under the terms of the [GNU General Public License version 2](https://github.com/Babkock/Tinyserve/blob/master/LICENSE.md). This software is distributed with absolutely no warranty.
+This software is licensed under the terms of the [MIT License](https://github.com/Babkock/Tinyserve/blob/master/LICENSE.md). This software is distributed with absolutely no warranty.
