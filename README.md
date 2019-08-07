@@ -1,6 +1,7 @@
 # Tinyserve
 
-[![Build status](https://ci.appveyor.com/api/projects/status/dnv4xqnfx7v64re0?svg=true)](https://ci.appveyor.com/project/Babkock/tinyserve) [![dependency status](https://deps.rs/repo/github/Babkock/tinyserve/status.svg)](https://deps.rs/repo/github/Babkock/tinyserve) ![](https://tokei.rs/b1/github/Babkock/tinyserve)
+[![Build status](https://ci.appveyor.com/api/projects/status/dnv4xqnfx7v64re0?svg=true)](https://ci.appveyor.com/project/Babkock/tinyserve) [![dependency status](https://deps.rs/repo/github/Babkock/tinyserve/status.svg)](https://deps.rs/repo/github/Babkock/tinyserve) [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FBabkock%2FTinyserve.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FBabkock%2FTinyserve?ref=badge_shield)
+![](https://tokei.rs/b1/github/Babkock/tinyserve)
 
 Tinyserve is a simple multi-threaded web server written in Rust. It serves the specified web root at the specified address.
 
@@ -29,3 +30,6 @@ There is an example HTML site included with this repo, copy it to your **```~/.c
 ## License
 
 This software is licensed under the terms of the [MIT License](https://github.com/Babkock/Tinyserve/blob/master/LICENSE.md). This software is distributed with absolutely no warranty.
+
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FBabkock%2FTinyserve.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FBabkock%2FTinyserve?ref=badge_large)
