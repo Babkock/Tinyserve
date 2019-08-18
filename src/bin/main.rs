@@ -12,6 +12,7 @@ extern crate chrono;
 use tinyserve::*;
 use clap::{Arg, App};
 use std::io;
+use std::io::{Error, ErrorKind};
 use std::net::TcpListener;
 
 // Listen for requests on localhost, port 8000, and create a new job for each incoming stream.
@@ -74,7 +75,7 @@ fn main() -> io::Result<()> {
             }
         }
         Err(_e) => {
-            panic!("The specified address {}:{} is in use, is Tinyserve already running?", address, port);
+            return Err(Error::new(ErrorKind::AddrInUse, format!("Address {}:{} is in use", address, port)));
         }
     }
 
