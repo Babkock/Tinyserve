@@ -3,7 +3,5 @@ install:
   - cargo build --release --verbose
 script:
   - cd target/release
-  - ./tinyserve -p 8000 -a 127.0.0.1 &
-  - sleep 20
-  - killall tinyserve
+  - ls -la
 
