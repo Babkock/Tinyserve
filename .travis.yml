@@ -3,5 +3,12 @@ install:
   - cargo build --release --verbose
 script:
   - cd target/release
-  - ls -la
+  - mkdir ~/.config/tinyserve
+  - printf "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n\t<title>Hello World</title>\n\t<meta charset=\"utf-8\" />\n</head>\n<body>\n\t<p><b>Hello World!</b></p>\n</body>\n</html>\n" > ~/.config/tinyserve/index.html
+  - ./main -a 127.0.0.1 -p 9000 &
+  - sleep 2
+  - cd ../..
+  - wget http://localhost:9000 -O test.html
+  - cat test.html
+  - killall main
 
