@@ -1,6 +1,6 @@
 # Tinyserve
 
-[![Build status](https://ci.appveyor.com/api/projects/status/dnv4xqnfx7v64re0?svg=true)](https://ci.appveyor.com/project/Babkock/tinyserve) [![dependency status](https://deps.rs/repo/github/Babkock/tinyserve/status.svg)](https://deps.rs/repo/github/Babkock/tinyserve)
+[![Build Status](https://travis-ci.org/Babkock/Tinyserve.svg?branch=master)](https://travis-ci.org/Babkock/Tinyserve) [![Build status](https://ci.appveyor.com/api/projects/status/dnv4xqnfx7v64re0?svg=true)](https://ci.appveyor.com/project/Babkock/tinyserve) [![dependency status](https://deps.rs/repo/github/Babkock/tinyserve/status.svg)](https://deps.rs/repo/github/Babkock/tinyserve)
 
 Tinyserve is a simple multi-threaded web server written in Rust. It serves the specified web root at the specified address.
 
