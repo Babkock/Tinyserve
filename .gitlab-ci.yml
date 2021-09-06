@@ -1,0 +1,11 @@
+image: "rust:latest"
+
+before_script:
+  - apt-get update -y
+  - apt-get -y --no-install-recommends build-essential
+
+script:
+  - cargo build --release
+  - cargo doc
+  - ./target/release/main -V
+
