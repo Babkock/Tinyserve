@@ -1,11 +1,15 @@
 image: "rust:latest"
 
-before_script:
-  - apt-get update -y
-  - apt-get -y --no-install-recommends build-essential
-
-script:
-  - cargo build --release
-  - cargo doc
-  - ./target/release/main -V
+build:
+  stage: build
+  before_script:
+    - apt-get update -y
+    - apt-get -y --no-install-recommends build-essential
+  script:
+    - cargo build --release
+    - cargo doc
+    - ./target/release/main -V
+  artifacts:
+    paths:
+      - target/release/main
 
