@@ -1,0 +1,37 @@
+#+TITLE: Tinyserve
+#+AUTHOR: Tanner Babcock
+#+EMAIL: babkock@protonmail.com
+#+LANGUAGE: en
+# Tinyserve
+
+[[https://travis-ci.org/Babkock/Tinyserve.svg?branch=master]]
+[[https://gitlab.com/tbcargo/Tinyserve/badges/master/pipeline.svg]]
+[[https://img.shields.io/badge/License-MIT-yellow.svg]]
+
+Tinyserve is a simple multi-threaded web server written in Rust. It serves the specified web root at the specified address.
+
+#+begin_src
+USAGE:
+    tinyserve [FLAGS] [OPTIONS]
+
+FLAGS:
+    -h, --help       Prints help information
+    -v               Use -v for verbose output.
+    -V, --version    Prints version information
+
+OPTIONS:
+    -a, --address <127.0.0.1>              Sets the IPv4 address to bind to. Default is 127.0.0.1 or localhost.
+    -p, --port <8000>                      Sets the port on the specified address. Default is 8000.
+    -r, --webroot <directory_with_html>    Sets the web root for the server. index.html is loaded from this directory.
+                                           Default is ~/.config/tinyserve.
+#+end_src
+
+** How to Use
+
+Your web root directory must contain at the very least, a file called *404.html*. Tinyserve will crash if this file is not present. If there is no *index.html* to serve for a =GET /= request, Tinyserve will fall back to *404.html*.
+
+There is an example HTML site included with this repo, copy it to your =~/.config/tinyserve= the default web root, and give it a try. The default address is [[http://localhost:8000][localhost:8000]].
+
+** License
+
+This software is licensed under the terms of the [[https://github.com/Babkock/Tinyserve/blob/master/LICENSE.md][MIT License]]. This software is distributed with absolutely no warranty.
